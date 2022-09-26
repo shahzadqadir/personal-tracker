@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1>Tracker</h1>
+        <p>Lets track my goals, objectives, tasks, and achievements! </p>
+        <div class="alert alert-success" role="alert">{{ quote.content }} ... {{ author }}</div>
+        <div class="row mt-5">
+            <div class="col">
+                <div>
+                    <table>
+                        <th>Goals</th>
+                        {% for goal in goals %}
+                            <tr height="30px"><td><a class="btn btn-outline-success col-12" href="#">{{ goal.description }}</a></td></tr>
+                        {% endfor %}
+                    </table>
+                </div><br>
+                <div class="mt-3 pd=3">
+                    <table>
+                        <th>This Quarter Objectives</th>
+                        {% for obj in this_quarter_objectives %}
+                            <tr><td> <a href="{% url 'objective_detail' obj.id %}">{{ obj.description }}</a> </td></tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="d-flex justify-content-center">
+                    Sample column 2
+                </div>
+                
+            </div>
+        </div>
+    </div>
+{% endblock content %}
