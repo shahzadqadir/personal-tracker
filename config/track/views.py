@@ -21,3 +21,10 @@ def index(request):
 def objective_detail(request, id):
     objective = models.Objective.objects.get(pk=id)
     return render(request, 'track/objective_detail.html', {'objective': objective})
+
+
+def goal_detail(request, id):
+    goal = models.Goal.objects.get(pk=id)
+    objectives = goal.objective_set.all()
+    return render(request, 'track/goal_detail.html', {'goal': goal, 'objectives': objectives})
+    

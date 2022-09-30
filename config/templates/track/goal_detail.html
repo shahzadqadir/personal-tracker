@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h4>{{ goal.description }}</h4>
+        <table>
+          <thead>
+            <th>Description</th>
+            <th>Due Date</th>
+            <th>Status</th>
+          </thead>
+          {% for objective in objectives %}
+            <tr>
+              <td>{{ objective.description }}</td>
+              <td>{{ objective.due_date }}</td>
+              <td>{{ objective.status }}</td>
+            </tr>
+          {% endfor %}
+        </table>       
+    </div>
+{% endblock content %}

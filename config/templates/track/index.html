@@ -11,7 +11,7 @@
                     <table>
                         <th>Goals</th>
                         {% for goal in goals %}
-                            <tr height="30px"><td><a class="btn btn-outline-success col-12" href="#">{{ goal.description }}</a></td></tr>
+                            <tr height="30px"><td><a class="btn btn-outline-success col-12" href="{% url 'goal_detail' goal.id %}">{{ goal.description }}</a></td></tr>
                         {% endfor %}
                     </table>
                 </div><br>
