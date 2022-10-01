@@ -18,9 +18,14 @@ def index(request):
     return render(request, 'track/index.html', context)
 
 
+def objectives(request):
+    objectives = models.Objective.objects.all()
+    return render(request, 'track/objectives.html', {'objectives': objectives})
+
 def objective_detail(request, id):
     objective = models.Objective.objects.get(pk=id)
-    return render(request, 'track/objective_detail.html', {'objective': objective})
+    goal = objective.goal
+    return render(request, 'track/objective_detail.html', {'objective': objective, 'goal': goal})
 
 
 def goal_detail(request, id):
