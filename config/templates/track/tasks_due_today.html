@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="container mt-3">
+    <h4>Tasks due today!</h4>
+    <table class="table">
+      <th></th>
+      <th>Effort Hours</th>
+      <th>Status</th>
+      <th>Objective</th>    
+      {% for task in tasks %}
+        <tr>
+          <td><a class="no-decoration" href="{% url 'task_detail' task.id %}">{{ task.title }}</a></td>
+          <td>{{ task.effort_hours }}</td>
+          <td>{{ task.status }}</td>
+          <td>{{ task.content_object }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+  
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <table class="table">      
+      <th></th>
+      <th>Effort Time</th>
+      <th>Due Date</th>
+    {% for project in projects %}
+        <tr>
+          <td><strong>Project Title: </strong>{{ project.type }}</td>
+        </tr>
+        <tr>
+          <td><strong>Description: </strong>{{ project.description }}</td>
+          <td>{{ project.effort_hours }}</td>
+          <td>{{ project.due_date }}</td>              
+        </tr>   
+    {% endfor %}
+    </table>
+  </div>
+{% endblock %}

@@ -5,6 +5,12 @@
         <h1>Tracker</h1>
         <p>Lets track my goals, objectives, tasks, and achievements! </p>
         <div class="alert alert-success" role="alert">{{ quote.content }} ... {{ author }}</div>
+        {% if announcement %}
+            <div class="announcements">
+                {{ announcement.title }}
+            </div>
+        {% endif %}
+
         <div class="row mt-5">
             <div class="col">
                 <div class="goal-box">
@@ -19,11 +25,10 @@
                     <h5>This Quarter Objectives [Ends: 31-10-2022]</h5>
                     <table class="table">
                         <th></th>
-                        <th>% Done</th>
+                        <th>Time Spent</th>
                         {% for obj in this_quarter_objectives %}
                             <tr>
                                 <td class="mt-1"> <a class="no-decoration" href="{% url 'objective_detail' obj.id %}">{{ obj.description }}</a> </td>
-                                <td>75%</td>
                             </tr>
                         {% endfor %}
                     </table>
@@ -31,9 +36,17 @@
             </div>
             <div class="col-sm">
                 <div class="d-flex justify-content-center">
-                    Sample column 2
-                </div>
-                
+                    <table class="table">
+                        <th></th>
+                        <th>Status</th>
+                        {% for task in weekly_tasks %}
+                            <tr>
+                                <td><a class="no-decoration" href="{% url 'task_detail' task.id %}">{{ task.title }}</td></a>
+                                <td>{{ task.status }}</td>
+                            </tr>                          
+                        {% endfor %}
+                    </table>
+                </div>                
             </div>
         </div>
     </div>
