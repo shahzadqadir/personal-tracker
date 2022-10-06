@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+      <a class="text-decoration-none" href="{% url 'index' %}">Back</a><br><br>
+        <h4>{{ goal.description }}</h4>
+        <table class="table">
+          <thead>
+            <th scope="col">Description</th>
+            <th scope="col">Due Date</th>
+            <th scope="col">Status</th>
+          </thead>
+          {% for objective in objectives %}
+            <tr>
+              <td class="text-capitalize"><a class="no-decoration" href="{% url 'objective_detail' objective.id %}">{{ objective.description }}</a></td>
+              <td>{{ objective.due_date }}</td>
+              <td>{{ objective.status }}</td>
+            </tr>
+          {% endfor %}
+        </table>       
+    </div>
+{% endblock content %}

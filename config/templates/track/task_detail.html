@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-3">
+    <h4>{{ task.title }}</h4>
+    <table class="table">
+      <tr><b><td>Due date</td></b><td>{{ task.due_date }}</td></tr>
+      <tr><b><td>Effort hours</td></b><td>{{ task.effort_hours }}</td></tr>
+      <tr><b><td>Status</td></b><td>{{ task.status }}</td></tr>
+      <tr><b><td>Date completed</td></b><td>{{ task.date_completed }}</td></tr>
+      <tr><b><td>Start time</td></b><td>{{ task.start_time }}</td></tr>
+      <tr><b><td>End time</td></b><td>{{ task.end_time }}</td></tr>
+      <tr><b><td>Time spent</td></b><td>{{ task.time_spent }}</td></tr>
+      <tr><b><td>Related Objective</td></b><td>{{ task.content_object }}</td></tr>
+    </table>
+  </div>
+{% endblock %}

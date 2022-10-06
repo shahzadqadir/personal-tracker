@@ -3,14 +3,15 @@
 {% block content %}
     <div class="container mt-5">
         <h4>{{ objective.description }}</h4>
-        <table>
+        <br><br>
+        <table class="table">
             <tr><td width="350px">Category: </td><td>{{ objective.category }}</td></tr>
             <tr><td width="350px">Due Date: </td><td>{{ objective.due_date }}</td></tr>
             {% if objective.completion_date %}
                 <tr><td width="350px">Completion Date: </td><td>{{ objective.completion_date }}</td></tr>
             {% endif %}
             <tr><td>Status: </td><td>{{ objective.status }}</td></tr>
-            <tr><td>Related Objective: </td><td>{{ objective.tasks.title }}</td></tr>
+            <tr><td>To achieve Goal: </td><td><a class="no-decoration" href="{% url 'goal_detail' goal.id %}">{{ goal.description }}</a></td></tr>
         </table>
     </div>
 {% endblock content %}

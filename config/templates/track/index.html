@@ -1,34 +1,52 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container">
+    <div class="container mt-3">
         <h1>Tracker</h1>
         <p>Lets track my goals, objectives, tasks, and achievements! </p>
         <div class="alert alert-success" role="alert">{{ quote.content }} ... {{ author }}</div>
+        {% if announcement %}
+            <div class="announcements">
+                {{ announcement.title }}
+            </div>
+        {% endif %}
+
         <div class="row mt-5">
             <div class="col">
-                <div>
-                    <table>
+                <div class="goal-box">
+                    <table class="table">
                         <th>Goals</th>
                         {% for goal in goals %}
-                            <tr height="30px"><td><a class="btn btn-outline-success col-12" href="#">{{ goal.description }}</a></td></tr>
+                            <tr height="30px"><td><a class="no-decoration-black" href="{% url 'goal_detail' goal.id %}">{{ goal.description }}</a></td></tr>
                         {% endfor %}
                     </table>
                 </div><br>
-                <div class="mt-3 pd=3">
-                    <table>
-                        <th>This Quarter Objectives</th>
+                <div class="mt-1">
+                    <h5>This Quarter Objectives [Ends: 31-10-2022]</h5>
+                    <table class="table">
+                        <th></th>
+                        <th>Time Spent</th>
                         {% for obj in this_quarter_objectives %}
-                            <tr><td> <a href="{% url 'objective_detail' obj.id %}">{{ obj.description }}</a> </td></tr>
+                            <tr>
+                                <td class="mt-1"> <a class="no-decoration" href="{% url 'objective_detail' obj.id %}">{{ obj.description }}</a> </td>
+                            </tr>
                         {% endfor %}
                     </table>
                 </div>
             </div>
             <div class="col-sm">
                 <div class="d-flex justify-content-center">
-                    Sample column 2
-                </div>
-                
+                    <table class="table">
+                        <th></th>
+                        <th>Status</th>
+                        {% for task in weekly_tasks %}
+                            <tr>
+                                <td><a class="no-decoration" href="{% url 'task_detail' task.id %}">{{ task.title }}</td></a>
+                                <td>{{ task.status }}</td>
+                            </tr>                          
+                        {% endfor %}
+                    </table>
+                </div>                
             </div>
         </div>
     </div>
