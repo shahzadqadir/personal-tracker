@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h4>Objectives - Completed to date</h4>
+        <table class="table">
+          <th></th>
+          <th>Completed On</th>
+          <th>Goal</th>
+          {% for objective in objectives %}
+            <tr>
+              <td><a class="no-decoration" href="{% url 'objective_detail' objective.id %}">{{ objective.description }}</a></td>
+              <td>{{ objective.completion_date }}</td>
+              <td>{{ objective.goal.description }}</td>
+            </tr>
+          {% endfor %}
+        </table>
+    </div>
+{% endblock content %}

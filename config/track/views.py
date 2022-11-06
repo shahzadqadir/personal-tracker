@@ -9,7 +9,9 @@ def index(request):
     quote = choice(models.Quotes.objects.all())
     goals = models.Goal.objects.all()
     announcement = models.Announcements.objects.order_by('-date_added').first()
-    this_quarter_objectives = models.Objective.objects.filter(due_date__gte = (timezone.now()), due_date__lte=(timezone.make_aware(datetime(2022, 11, 1))))
+    this_quarter_objectives = models.Objective.objects.filter(due_date__gte = (timezone.make_aware(datetime(2022, 8, 1))), 
+                                                              due_date__lte=(timezone.make_aware(datetime(2023, 1, 31))))
+    this_quarter_objectives = this_quarter_objectives.exclude(status__contains='complete')
     weekly_tasks = models.Task.objects.exclude(status = 'complete')
     tasks_completed_this_week = ''
     context = {
@@ -26,6 +28,11 @@ def index(request):
 def objectives(request):
     objectives = models.Objective.objects.all()
     return render(request, 'track/objectives.html', {'objectives': objectives})
+
+
+def objectives_completed(request):
+    objectives = models.Objective.objects.filter(status__contains='complete')
+    return render(request, 'track/objectives_completed.html', {'objectives': objectives})
 
 def objective_detail(request, id):
     objective = models.Objective.objects.get(pk=id)
