@@ -17,6 +17,7 @@ class Task(models.Model):
     content_id = models.PositiveIntegerField()
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     content_object = GenericForeignKey("content_type", "content_id")
+    comment = models.CharField(max_length=250, null=True, blank=True, default="")
 
     def __str__(self):
         return self.title
@@ -57,6 +58,9 @@ class Project(models.Model):
     time_spent = models.PositiveIntegerField(default=0)
     
     tasks = GenericRelation(Task)
+    
+    def __str__(self):
+        return self.description
 
 
 class Quotes(models.Model):
