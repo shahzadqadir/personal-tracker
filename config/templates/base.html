@@ -29,7 +29,10 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
             <li class="nav-item active pl-3">
-              <a class="nav-link" href="{% url 'index' %}">Goals</span></a>
+              <a class="nav-link" href="{% url 'goals' %}">Goals</span></a>
+            </li>
+            <li>
+              <a class="nav-link" href="{% url 'gantt_chart' %}">Gantt Chart</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'objectives' %}">Objectives</a>
@@ -40,6 +43,7 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Progress</a>
             </li>
+            
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="{% url 'tasks_due_today' %}" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 What's up today?
@@ -50,6 +54,9 @@
                 <a class="dropdown-item" href="#">Future Use</a>
               </div>
             </li>
+            <li class="nav-item">
+              <a class="btn btn-outline-success" href="{% url 'time_table' %}" class="nav-link">Time Table</a>
+            </li>
           </ul>
         </div>
       </nav>
@@ -58,6 +65,7 @@
     <!-- JavaScript Bundle with Popper -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script> -->
     <script src="{% static 'bootstrap-5.2.1-dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/base.js' %}"></script>
     
 </body>
 </html>

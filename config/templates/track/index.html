@@ -24,14 +24,15 @@
                 <div class="mt-1">
                     <h5>This Quarter Objectives [Ends: 31-01-2023]</h5>
                     <table class="table">
-                        <th></th>
-                        <th>Time Spent</th>
+                        <th>Task</th>
+                        <!-- <th>Time Spent</th> -->
                         <th>Status</th>
+                        <th>Due By</th>
                         {% for obj in this_quarter_objectives %}
                             <tr>
                                 <td class="mt-1"> <a class="no-decoration" href="{% url 'objective_detail' obj.id %}">{{ obj.description }}</a> </td>
-                                <td></td>
                                 <td>{{ obj.status }}</td>
+                                <td>{{ obj.due_date|date:"d/m/y" }}</td>
                             </tr>
                         {% endfor %}
                     </table>
@@ -45,7 +46,7 @@
                         {% for task in weekly_tasks %}
                             <tr>
                                 <td><a class="no-decoration" href="{% url 'task_detail' task.id %}">{{ task.title }}</td></a>
-                                <td>{{ task.due_date }}</td>
+                                <td>{{ task.due_date.date }}</td>
                             </tr>                          
                         {% endfor %}
                     </table>

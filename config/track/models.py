@@ -14,9 +14,9 @@ class Task(models.Model):
     start_time = models.TimeField(default=timezone.now, null=True, blank=True)
     end_time = models.TimeField(default=timezone.now, null=True, blank=True)
     time_spent = models.PositiveIntegerField(null=True, blank=True)
-    content_id = models.PositiveIntegerField()
+    object_id = models.PositiveIntegerField()
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    content_object = GenericForeignKey("content_type", "content_id")
+    content_object = GenericForeignKey("content_type", "object_id")
     comment = models.CharField(max_length=250, null=True, blank=True, default="")
 
     def __str__(self):

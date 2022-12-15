@@ -1,17 +1,50 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container mt-5">
-        <h4>{{ objective.description }}</h4>
-        <br><br>
-        <table class="table">
-            <tr><td width="350px">Category: </td><td>{{ objective.category }}</td></tr>
-            <tr><td width="350px">Due Date: </td><td>{{ objective.due_date }}</td></tr>
-            {% if objective.completion_date %}
-                <tr><td width="350px">Completion Date: </td><td>{{ objective.completion_date }}</td></tr>
-            {% endif %}
-            <tr><td>Status: </td><td>{{ objective.status }}</td></tr>
-            <tr><td>To achieve Goal: </td><td><a class="no-decoration" href="{% url 'goal_detail' goal.id %}">{{ goal.description }}</a></td></tr>
-        </table>
-    </div>
+  <div class="container mt-5">
+    <a class="link-secondary no-decoration" href="{% url 'objectives' %}"> <<< Objectives </a>
+    <h4 class="mt-3">{{ objective.description }}</h4>
+    <br><br>
+    <table class="table">
+      <tr><td width="350px">Category: </td><td>{{ objective.category }}</td></tr>
+      <tr><td width="350px">Due Date: </td><td>{{ objective.due_date }}</td></tr>
+      <tr><td width="350px">Time Spent to date: </td><td>{{ total_time_spent }}</td></tr>
+      {% if objective.completion_date %}
+          <tr><td width="350px">Completion Date: </td><td>{{ objective.completion_date }}</td></tr>
+      {% endif %}
+      <tr><td>Status: </td><td>{{ objective.status }}</td></tr>
+      <tr><td>To achieve Goal: </td><td><a class="no-decoration" href="{% url 'goal_detail' goal.id %}">{{ goal.description }}</a></td></tr>
+    </table>
+    {% if tasks %}
+      <h5>Tasks</h5>
+      <div class="row">
+        <div class="col">
+          <table class="table">
+            <thead>
+              <th>Description</th>
+              <th>TimeSpent</th>
+            </thead>
+            <tbody>
+              {% for task in even_tasks %}
+                <tr>
+                  <td>{{ task.title }}</td>
+                  <td>{{ task.time_spent }}</td>
+                </tr>                        
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="col">
+          <table class="table">                
+            {% for task in odd_tasks %}
+              <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.time_spent }}</td>
+              </tr>                        
+            {% endfor %}
+          </table>
+        </div>
+      </div>
+    {% endif %}  
+  </div>
 {% endblock content %}

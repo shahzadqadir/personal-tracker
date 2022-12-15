@@ -1,19 +1,48 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container mt-5">
-        <h4>All Objectives</h4>
-        <table class="table">
-          <th></th>
-          <th>Due Date</th>
-          <th>Goal</th>
-          {% for objective in objectives %}
-            <tr>
-              <td><a class="no-decoration" href="{% url 'objective_detail' objective.id %}">{{ objective.description }}</a></td>
-              <td>{{ objective.due_date }}</td>
-              <td>{{ objective.goal.description }}</td>
-            </tr>
-          {% endfor %}
-        </table>
-    </div>
+  <div class="container mt-5">
+    <h4>Objectives - By month</h4>
+    <table class="table">
+      <thead>
+        <tr><td>Month</td></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a class="no-decoration" href="{% url 'monthly_objectives' 'nov' %}">November 2022</a></td>
+        </tr>
+        <tr>
+          <td><a class="no-decoration" href="{% url 'monthly_objectives' 'dec' %}">December 2022</a></td>
+        </tr>
+        <tr>
+          <td><a class="no-decoration" href="{% url 'monthly_objectives' 'jan' %}">January 2023</a></td>
+        </tr>
+        <tr>
+          <td><a class="no-decoration" href="{% url 'monthly_objectives' 'feb' %}">February 2023</a></td>
+        </tr>
+        <tr>
+          <td><a class="no-decoration" href="{% url 'monthly_objectives' 'mar' %}">March 2023</a></td>
+        </tr>
+        <tr>
+          <td><a class="no-decoration" href="{% url 'monthly_objectives' 'apr' %}">April 2023</a></td>
+        </tr>
+        <tr>
+          <td><a class="no-decoration" href="{% url 'monthly_objectives' 'may' %}">May 2023</a></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <!-- <table class="table">
+      <th></th>
+      <th>Due Date</th>
+      <th>Goal</th>
+      {% for objective in objectives %}
+        <tr>
+          <td><a class="no-decoration" href="{% url 'objective_detail' objective.id %}">{{ objective.description }}</a></td>
+          <td>{{ objective.due_date }}</td>
+          <td>{{ objective.goal.description }}</td>
+        </tr>
+      {% endfor %}
+    </table> -->
+  </div>
 {% endblock content %}

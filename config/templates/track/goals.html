@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="container mt-5">
+    <h5>Next Career Goals</h5>
+    {% for goal in goals %}
+      <ul>
+        <li>{{ goal}}</li>
+      </ul>
+    {% endfor %}
+  </div>
+
+{% endblock content %}
