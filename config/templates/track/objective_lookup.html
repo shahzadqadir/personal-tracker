@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <div class="container mt-3">
+    <h4 class="m-5">Objectives Lookup</h4>
+    <form method="post">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <p>If objective description is present, keyword will be ignored.</p>
+      <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+
+    <br><hr>
+
+    {% if objectives %}
+      <table class="table">
+        <th>ID</th>
+        <th>Description</th>
+        <th>Due Date</th>
+        <th>Status</th>
+        {% for objective in objectives %}
+        <tr>
+          <td>{{ objective.id }}</td>
+          <td>{{ objective.description }}</td>
+          <td>{{ objective.due_date }}</td>
+          <td>{{ objective.status }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <p>No results found.</p>
+    {% endif %}
+
+    <!-- navigation -->
+    <br><hr>
+    <h5>Quick Links</h5>
+    <a href="{% url 'add_task' %}">Add a task</a><br>
+    <a href="{% url 'objectives' %}">Objectives by month</a><br>
+
+  </div>
+{% endblock content %}

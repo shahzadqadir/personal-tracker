@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h4 class="mt-5 mb-3">List of tasks</h4>
+
+    {% if include_completed %}
+      <div class="card" style="width: 18rem;">
+        <a class="card-body no-decoration" href="{% url 'all_tasks' %}">
+        Include complete/cancelled tasks</a>
+      </div>
+    {% else %}
+      <div class="card" style="width: 18rem;">
+      <a class="card-body no-decoration" href="{% url 'tasks' %}">
+      Exclude complete/cancelled tasks</a>
+      </div>
+    {% endif %}
+    
+
+    <table class="table mt-3">
+      <th>Description</th>
+      <th>Due Date</th>
+      <th>Status</th>
+      <th>Time Spent</th>
+      {% for task in tasks %}
+        <tr>
+          {% if task.status == 'complete' or task.status == 'cancelled' %}
+            <td style="color: gray;">{{ task.title }}</td>
+            <td style="color: gray;">{{ task.due_date|date }}</td>
+            <td style="color: gray;">{{ task.status }}</td>
+            <td style="color: gray;">{{ task.time_spent }}</td>
+          {% else %}
+            <td><a class="no-decoration" href="{% url 'task_detail' task.id %}">{{ task.title }}</a></td>
+            <td>{{ task.due_date|date }}</td>
+            <td>{{ task.status }}</td>
+            <td>{{ task.time_spent }}</td>
+          {% endif %}
+         
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+{% endblock %}

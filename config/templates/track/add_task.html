@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
 
 {% block content %}
 
   <div class="container mt-5">
+    <h4 style="text-align:center">Add a task</h4>
     <form method="POST">
       {% csrf_token %}
-      {{ form.as_p }}
-      <button class="btn btn-primary" type="submit">Add Task</button>
-    </form>    
+      {{ form|crispy }}
+      <button class="btn btn-primary mt-3 mb-3" type="submit">Add Task</button>
+      <a class="btn btn-warning mt-3 ml-3 mb-3" href="{% url 'objectives_search' %}">Find Objective ID</a> 
+    </form>
+       
   </div>
 
 {% endblock content %}

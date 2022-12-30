@@ -31,18 +31,17 @@
         </tr>
       </tbody>
     </table>
+
+    <div class="card">
+      <div class="card-body">
+        <a class="card-link btn btn-primary" href="{% url 'objectives_completed' %}">Completed to date</a>
+        <a class="btn btn-success" href="{% url 'objectives_search' %}">Search</a>
+      </div>
+    </div>
     
-    <!-- <table class="table">
-      <th></th>
-      <th>Due Date</th>
-      <th>Goal</th>
-      {% for objective in objectives %}
-        <tr>
-          <td><a class="no-decoration" href="{% url 'objective_detail' objective.id %}">{{ objective.description }}</a></td>
-          <td>{{ objective.due_date }}</td>
-          <td>{{ objective.goal.description }}</td>
-        </tr>
-      {% endfor %}
-    </table> -->
+
+    
+    
+    
   </div>
 {% endblock content %}

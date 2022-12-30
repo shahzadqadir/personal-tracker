@@ -5,12 +5,18 @@ from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelatio
 from django.utils import timezone
 from datetime import datetime
 
+
 class Task(models.Model):
+    choices = [
+        ('not-started', 'not-started'),
+        ('ongoing', 'ongoing'),
+        ('completed', 'completed')
+    ]
     title = models.CharField(max_length=100)
-    due_date = models.DateTimeField(null=True, blank=True)
+    due_date = models.DateTimeField(null=True, blank=True, default=timezone.now)
     effort_hours = models.PositiveIntegerField(default=2)
-    status = models.CharField(max_length=50, default='not-started')
-    date_completed = models.DateTimeField(null=True, blank=True)
+    status = models.CharField(max_length=50, default='not-started', choices=choices)
+    date_completed = models.DateTimeField(null=True, blank=True, default=timezone.now)
     start_time = models.TimeField(default=timezone.now, null=True, blank=True)
     end_time = models.TimeField(default=timezone.now, null=True, blank=True)
     time_spent = models.PositiveIntegerField(null=True, blank=True)
@@ -21,8 +27,7 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
-    
-    @property
+
     def get_time_spent(self):
         self.time_spent = self.end_time - self.start_time
 
@@ -30,7 +35,8 @@ class Task(models.Model):
 class Goal(models.Model):
     description = models.TextField(max_length=250)
     status = models.CharField(max_length=100)
-    #objectives = models.ForeignKey(Objective, on_delete=models.CASCADE)
+
+    # objectives = models.ForeignKey(Objective, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.description
@@ -48,17 +54,18 @@ class Objective(models.Model):
     def __str__(self):
         return self.description
 
+
 class Project(models.Model):
-    type = models.CharField(max_length=100) # personal or office
+    type = models.CharField(max_length=100)  # personal or office
     description = models.TextField(max_length=250)
     due_date = models.DateTimeField()
     status = models.CharField(max_length=100)
     effort_hours = models.PositiveIntegerField(default=10)
     completion_date = models.DateTimeField(auto_now=True)
     time_spent = models.PositiveIntegerField(default=0)
-    
+
     tasks = GenericRelation(Task)
-    
+
     def __str__(self):
         return self.description
 
@@ -70,10 +77,11 @@ class Quotes(models.Model):
 
     def __str__(self):
         return self.content[:20] + " ..."
-    
+
+
 class Announcements(models.Model):
     title = models.TextField()
     date_added = models.DateTimeField(null=True, blank=True)
-    
+
     def __str__(self):
         return self.title

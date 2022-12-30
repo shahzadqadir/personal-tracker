@@ -13,5 +13,6 @@
       <tr><b><td>Time spent</td></b><td>{{ task.time_spent }}</td></tr>
       <tr><b><td>Related Objective</td></b><td>{{ task.content_object }}</td></tr>
     </table>
+    <a class="btn btn-warning" href="{% url 'edit_task' task.id %}">Edit</a>
   </div>
 {% endblock %}

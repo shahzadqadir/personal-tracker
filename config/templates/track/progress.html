@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h4 class="mt-5 mb-3">Progres to date ...</h4>
+    <table class="table mt-5" style="width: 500px;">
+      <tr>
+        <td><strong>Objectives</strong></td>
+        <td style="text-align: right;">{{ objectives }}</td>
+      </tr>
+      <tr>
+        <td><strong>Cancelled</strong></td>
+        <td style="text-align: right;">{{ cancelled }}</td>
+      </tr>
+      <tr>
+        <td><strong>Completed</strong></td>
+        <td style="text-align: right;">{{ completed }}</td>
+      </tr>
+      <tr>
+        <td><strong>Percentage Completed</strong></td>
+        <td style="text-align: right;">{{ percentage }}</td>
+      </tr>
+      
+    </table>
+  </div>
+{% endblock %}

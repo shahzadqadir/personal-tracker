@@ -8,6 +8,7 @@ django = "*"
 shell = "*"
 Pipfile = "*"
 django-environ = "*"
+django-crispy-forms = "*"
 
 [dev-packages]
 
