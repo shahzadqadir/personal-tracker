@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class Track2Config(AppConfig):
+class SprintConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'track2'
+    name = 'sprint'
