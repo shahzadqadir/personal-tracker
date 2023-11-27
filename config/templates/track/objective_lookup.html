@@ -17,12 +17,18 @@
       <table class="table">
         <th>ID</th>
         <th>Description</th>
+        <th>HasLink?</th>
         <th>Due Date</th>
         <th>Status</th>
         {% for objective in objectives %}
         <tr>
           <td>{{ objective.id }}</td>
-          <td>{{ objective.description }}</td>
+          <td><a class="no-decoration" href="{% url 'objective_detail' objective.id %}">{{ objective.description }}</a></td>
+          {% if objective.weblink %}
+            <td>Yes</td>
+          {% else %}
+            <td>No</td>
+          {% endif %}
           <td>{{ objective.due_date }}</td>
           <td>{{ objective.status }}</td>
         </tr>
@@ -37,6 +43,8 @@
     <h5>Quick Links</h5>
     <a href="{% url 'add_task' %}">Add a task</a><br>
     <a href="{% url 'objectives' %}">Objectives by month</a><br>
+
+    {{ request_get }}
 
   </div>
 {% endblock content %}

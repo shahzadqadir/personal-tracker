@@ -41,9 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'track',   
+    # custom apps
+    'deepwork.apps.DeepworkConfig',
+    'track.apps.TrackConfig',
+    'sprint.apps.SprintConfig',
     # third party apps
     'crispy_forms', 
+    'crispy_bootstrap4',
 ]
 
 MIDDLEWARE = [

@@ -5,14 +5,20 @@
     <h4 class="mt-5 mb-3">List of tasks</h4>
 
     {% if include_completed %}
-      <div class="card" style="width: 18rem;">
-        <a class="card-body no-decoration" href="{% url 'all_tasks' %}">
-        Include complete/cancelled tasks</a>
+      <div class="card" style="width: 18rem; padding-top:2px; height: 2.5rem; text-align: center; display:inline-block;">
+        <a class="card-body no-decoration" href="{% url 'all_tasks' %}">        
+        Include complete/cancelled tasks</a>        
+        </div>
+      <div style="display:inline-block;">
+        <a class="btn btn-success" href="{% url 'add_task' %}">ADD Task</a>
       </div>
     {% else %}
-      <div class="card" style="width: 18rem;">
-      <a class="card-body no-decoration" href="{% url 'tasks' %}">
-      Exclude complete/cancelled tasks</a>
+      <div class="card" style="width: 18rem; padding-top:2px; height: 2.5rem; text-align: center; display:inline-block;">
+        <a class="card-body no-decoration" href="{% url 'tasks' %}">
+        Exclude complete/cancelled tasks</a>
+      </div>
+      <div style="display:inline-block;">
+        <a class="btn btn-success" href="{% url 'add_task' %}">ADD Task</a>
       </div>
     {% endif %}
     

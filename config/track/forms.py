@@ -1,11 +1,17 @@
 from django import forms
 
-from track.models import Task
+from track.models import Task, Objective
 
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = '__all__'
+        
+class ObjectiveForm(forms.ModelForm):
+    class Meta:
+        model = Objective
+        fields = '__all__'
+        exclude = ('effort_hours', 'effort_left', 'progress')
         
         
 class ObjectiveLookupForm(forms.Form):

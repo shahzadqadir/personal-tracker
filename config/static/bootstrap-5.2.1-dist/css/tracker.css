@@ -15,10 +15,20 @@
     text-decoration: underline;
 }
 
+.no-decoration-white{
+    text-decoration: none;
+    color: white;
+}
+.no-decoration-white:hover{
+    text-decoration: underline;
+    color: white;
+}
+
 .no-decoration-home{
     text-decoration: none;
     color: black;
 }
+
 
 .no-decoration-home:hover{    
     color: green;
@@ -33,7 +43,7 @@
 
 .goal-box{
     width: 100%;
-    height: 300px;
+    height: 650px;
     padding-left: 30px;
     padding-top: 30px;
     background-color: #F0F8FF;
@@ -42,6 +52,29 @@
     border-radius: 10px;
     font-family: 'Roboto', sans-serif;
     font-size: larger;
+    
+
+}
+
+.goal_objectives{
+    width: 90%;
+    margin-left: 7%;
+    margin-top: 1%;
+    /* border: 1px solid blue; */
+    border-radius: 15px;
+    /* padding: 3%; */
+    font-family: 'Roboto', sans-serif;
+    font-size: large;
+    background-image: linear-gradient(to right, rgba(136,214,226,0), rgb(220, 240, 243, 1));
+}
+
+.objective_grayed{
+    /* background-color: #bdcbce; */
+    width: 95%;
+    background-color: rgb(220, 240, 243);
+    /* border: 1px solid #6f7779; */
+    border-radius: 10px;
+
 }
 
 .navbar-image{
@@ -62,4 +95,37 @@
     width: 100%;
     height: 100px;
     border: 1px solid red;
+}
+
+.main-heading-box{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 150px;
+}
+
+.heading-sub1 {    
+    width: 50%;
+}
+
+.heading-sub2 {
+    width: 50%;
+}
+
+.smallfont{
+    font-size:small;
+}
+
+.important {
+    background-color: #052d5e;
+    width: 15%;
+    color: gainsboro;
+    padding: 3px;
+    font-weight: bold;
+}
+
+.custom-container{
+    margin: top 3%;
+    margin-left: 2%;
+    margin-right: 2%
 }

@@ -1,9 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container mt-3">
-        <h1>Tracker</h1>
-        <p>Lets track my goals, objectives, tasks, and achievements! </p>
+    <div class="custom-container mt-3">
+        <div class="main-heading-box">
+            <div class="heading-sub1">
+                <h1>Tracker</h1>
+                <p>Lets track my goals, objectives, tasks, and achievements! </p>
+            </div>
+            <div class="heading-sub2">
+                <h4 id="main-greeting">set by javascript</h4>
+                <p id="date-and-time"><strong>set by javascript</strong></p>
+                <p id="main-greeting-description">to be set by javascript</p>
+            </div>
+        </div>
         <div class="alert alert-success" role="alert">{{ quote.content }} ... {{ author }}</div>
         {% if announcement %}
             <div class="announcements">
@@ -13,29 +22,32 @@
 
         <div class="row mt-5">
             <div class="col">
-                <div class="goal-box">
-                    <table class="table">
-                        <th>Goals</th>
-                        {% for goal in goals %}
-                            <tr height="30px"><td><a class="no-decoration-black" href="{% url 'goal_detail' goal.id %}">{{ goal.description }}</a></td></tr>
-                        {% endfor %}
-                    </table>
-                </div><br>
+
                 <div class="mt-1">
-                    <h5>This Quarter Objectives [Ends: 31-01-2023]</h5>
+                    <h5>This Quarter ↠ May ... Aug, 2023 ↞ </h5>
                     <table class="table">
-                        <th>Task</th>
-                        <!-- <th>Time Spent</th> -->
+                        <th>Objective | Course</th>
                         <th>Status</th>
                         <th>Due By</th>
                         {% for obj in this_quarter_objectives %}
-                            <tr>
-                                <td class="mt-1"> <a class="no-decoration" href="{% url 'objective_detail' obj.id %}">{{ obj.description }}</a> </td>
-                                <td>{{ obj.status }}</td>
-                                <td>{{ obj.due_date|date:"d/m/y" }}</td>
-                            </tr>
+                            {% if obj.status == 'complete' %}
+                                <tr>
+                                    <td class="mt-1" style="background-color: #D5f1ce;"> <a class="no-decoration" href="{% url 'objective_detail' obj.id %}">{{ obj.description }}</a> </td>
+                                    <td style="background-color:#D5f1ce;">&#x2705;</td>
+                                    <td style="background-color: #D5f1ce;">{{ obj.due_date|date:"d/m/y" }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td class="mt-1"> <a class="no-decoration" href="{% url 'objective_detail' obj.id %}">{{ obj.description }}</a> </td>
+                                    <td>{{ obj.status }}</td>
+                                    <td>{{ obj.due_date|date:"d/m/y" }}</td>
+                                </tr>
+                            {% endif %}
                         {% endfor %}
                     </table>
+                </div -->
+                <div>
+                    <a class="btn btn-outline-success mt-3" target="_blank" href="file:///home/sqadir/MyFolders/Training/Programming/HTML/quarterly_tasks.html">Quarter Status - Updated Weekly</a>
                 </div>
             </div>
             <div class="col-sm">
@@ -43,15 +55,38 @@
                     <table class="table">
                         <th>This Week</th>
                         <th>Due Date</th>
+                        <th>Effort(H)</th>
+                        <th>Sprint</th>
                         {% for task in weekly_tasks %}
+                            {% if task.status == 'completed' %}
+                            <tr>
+                                <td style="background-color: #D5f1ce;"><a class="no-decoration" href="{% url 'task_detail' task.id %}">{{ task.title }}</td></a>
+                                <td style="background-color: #D5f1ce;">{{ task.due_date.date }}</td>
+                                <td style="background-color: #D5f1ce; text-align: center;">{{ task.effort_hours }}</td>
+                                {% if task.sprint %}
+                                    <td style="background-color: #D5f1ce; text-align: center;">{{ task.sprint }}</td>
+                                {% endif %}
+                            </tr>        
+                            {% else %}
                             <tr>
                                 <td><a class="no-decoration" href="{% url 'task_detail' task.id %}">{{ task.title }}</td></a>
-                                <td>{{ task.due_date.date }}</td>
-                            </tr>                          
+                                <td>{{ task.due_date.date|date:"d/M/y" }}</td>
+                                <td style="text-align: center;">{{ task.effort_hours }}</td>
+                                {% if task.sprint %}
+                                    <td style="text-align: center;">{{ task.sprint }}</td>
+                                {% endif %}
+                            </tr>
+                            {% endif %}                          
                         {% endfor %}
                     </table>
                 </div>
-                <a class="btn btn-primary mt-5" href="{% url 'add_task' %}">Add a task</a><br>
+                <div>
+                    <a class="btn btn-primary" href="{% url 'add_task' %}">Add a task</a><br>
+                </div>
+                <div>
+                    <a class="btn btn-outline-success mt-3" target="_blank" href="https://www.dropbox.com/home/Deepwork?preview=weekly_progress.ods">Deepwork Hours Tracking</a>
+                </div>
+                
             </div>
         </div>
     </div>

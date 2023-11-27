@@ -9,6 +9,9 @@ shell = "*"
 Pipfile = "*"
 django-environ = "*"
 django-crispy-forms = "*"
+pandas = "*"
+plotly = "*"
+crispy-bootstrap4 = "*"
 
 [dev-packages]
 

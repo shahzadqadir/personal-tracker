@@ -2,13 +2,55 @@
 
 {% block content %}
 
-  <div class="container mt-5">
-    <h5>Next Career Goals</h5>
-    {% for goal in goals %}
-      <ul>
-        <li>{{ goal}}</li>
-      </ul>
+   
+    {% for goal, percent in goals_status.items %}    
+      <div class="goal_objectives">
+        <p><strong><h4>{{ goal.description }}</h4></strong><br></p>
+        <h5 class="btn btn-outline-success">Percentage Achieved: {{ percent }} %</h5>
+        <div class="important">Target Date: {{ goal.target_date }}</div>
+        <table class="table">
+          <th></th>    
+          <th>Due Date</th>
+          <th>Effort (H)</th>
+          <th>Left (H)</th>
+          <th>Progress</th>
+          <th>Status</th>
+          {% for objective in goal.goal_objectives.all|dictsort:'due_date' %}
+            {% if objective.status == 'complete' %}
+              <tr class="objective_grayed">
+                <td width="50%">
+                  <a class="no-decoration-home" href="{% url 'objective_detail' objective.id %}">
+                    {{ objective.description|title }}</a>
+                </td>
+                <td>{{ objective.due_date|date }}</td>
+                <td>{{ objective.effort_hours }}</td>
+                <td>{{ objective.effort_left }}</td>
+                <td><progress value="100" max="100">10%</progress></td>
+                <td><span>&#9745;</span></td>
+              </tr>
+            {% else %}
+              <tr>
+                {% if objective.status == "ongoing" %}
+                  <td width="50%">
+                    <a class="no-decoration-home" href="{% url 'objective_detail' objective.id %}">
+                      <span>&#8594;</span> {{ objective.description|title }}</a>
+                  </td>
+                {% else %}
+                  <td width="50%">
+                    <a class="no-decoration-home" href="{% url 'objective_detail' objective.id %}">
+                      {{ objective.description|title }}</a>
+                  </td>
+                {% endif %}
+                <td>{{ objective.due_date|date }}</td>
+                <td>{{ objective.effort_hours }}</td>
+                <td>{{ objective.effort_left }}</td>
+                <td><progress value={{ objective.progress }} max="100">10%</progress></td>
+                <td>{{ objective.status }}</td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </table>
+      </div><br>  
     {% endfor %}
-  </div>
 
-{% endblock content %}
+{% endblock %}

@@ -7,4 +7,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('time_table/', TimeTableView.as_view(), name='time_table'),
     path('', include('track.urls')),
+    path('sprint/', include('sprint.urls')),
+    path('deepwork/', include('deepwork.urls')),
 ]

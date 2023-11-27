@@ -17,11 +17,19 @@
         <th>Goal</th>
         {% for objective in monthly_objectives %}
           <tr>
-            <td><a class="no-decoration" href="{% url 'objective_detail' objective.id %}">{{ objective.description }}</a></td>
-            <td>{{ objective.due_date }}</td>
-            <td>{{ objective.status }}</td>
-            <td>{{ objective.completion_date}}</td>            
-            <td>{{ objective.goal.description }}</td>
+            {% if objective.status == 'complete' %}
+              <td style="background-color: #D5f1ce;"><a class="no-decoration" href="{% url 'objective_detail' objective.id %}">{{ objective.description }}</a></td>
+              <td style="background-color: #D5f1ce;">{{ objective.due_date }}</td>
+              <td style="background-color: #D5f1ce;">{{ objective.status|capfirst }}</td>
+              <td style="background-color: #D5f1ce;">{{ objective.completion_date}}</td>            
+              <td style="background-color: #D5f1ce;">{{ objective.goal.description }} ✓✓✓ </td>
+            {% else %}
+              <td><a class="no-decoration" href="{% url 'objective_detail' objective.id %}">{{ objective.description }}</a></td>
+              <td>{{ objective.due_date }}</td>
+              <td>{{ objective.status|capfirst }}</td>
+              <td>{{ objective.completion_date}}</td>            
+              <td>{{ objective.goal.description }}</td>
+            {% endif %}
           </tr>
         {% endfor %}
       </table>

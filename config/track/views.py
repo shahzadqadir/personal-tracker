@@ -1,29 +1,37 @@
 from django.shortcuts import render, reverse, redirect
 from django.urls import reverse_lazy
 from random import choice
+import datetime
 from datetime import datetime, date, timedelta
 from django.utils import timezone
 
 from django.views.generic import ListView, DeleteView
 
-from .forms import TaskForm, ObjectiveLookupForm
+from .forms import TaskForm, ObjectiveLookupForm, ObjectiveForm
 from . import models
+from deepwork.models import Deepwork
 
 
-def index(request):
+def index(request):    
+
+    
     quote = choice(models.Quotes.objects.all())
     goals = models.Goal.objects.all()
+    goals_status = {}
     announcement = models.Announcements.objects.order_by('-date_added').first()
-    this_quarter_objectives = models.Objective.objects.filter(due_date__gte = (timezone.make_aware(datetime(2022, 8, 1))), 
-                                                              due_date__lte=(timezone.make_aware(datetime(2023, 2, 1)))).order_by('status')
-    this_quarter_objectives = this_quarter_objectives.exclude(status__contains='complete')
+    this_quarter_objectives = models.Objective.objects.filter(due_date__gte = (timezone.make_aware(datetime(2023, 5, 1))), 
+                                                              due_date__lte=(timezone.make_aware(datetime(2023, 8, 31)))).order_by('due_date')
+
     week_start = date.today()-timedelta(days=date.today().weekday())
-    week_end = week_start + timedelta(days=6)
-    # timezone.make_aware(datetime(2022, 12, 18))
+    week_end = week_start + timedelta(days=15) # change back to 6 to fix weekly tasks
     weekly_tasks = models.Task.objects.filter(due_date__gte=week_start,
-                                              due_date__lte=week_end)
-    weekly_tasks = weekly_tasks.exclude(status__contains='complete').exclude(status__contains='cancelled').order_by('due_date')
-    tasks_completed_this_week = ''
+                                              due_date__lte=week_end).order_by('due_date')
+    
+    for goal in goals:
+        all_objectives = len(goal.goal_objectives.all()) or 1
+        complete_objectives = len(goal.goal_objectives.filter(status__contains='complete'))
+        goals_status[goal] = round((complete_objectives/all_objectives)*100, 2)  
+   
     context = {
         'quote': quote,
         'author': quote.author,
@@ -31,6 +39,7 @@ def index(request):
         'announcement': announcement,
         'this_quarter_objectives': this_quarter_objectives,
         'weekly_tasks': weekly_tasks,
+        'goals_status': goals_status,
     }
     return render(request, 'track/index.html', context)
 
@@ -109,6 +118,15 @@ def monthly_objectives(request, month):
     elif 'may' in month.lower():
         monthly_objectives = models.Objective.objects.filter(due_date__gte = (timezone.make_aware(datetime(2023, 5, 2))),
                                                              due_date__lte = (timezone.make_aware(datetime(2023, 6, 1)))).order_by('status')
+    elif 'jun' in month.lower():
+        monthly_objectives = models.Objective.objects.filter(due_date__gte = (timezone.make_aware(datetime(2023, 6, 2))),
+                                                             due_date__lte = (timezone.make_aware(datetime(2023, 7, 1)))).order_by('status')
+    elif 'jul' in month.lower():
+        monthly_objectives = models.Objective.objects.filter(due_date__gte = (timezone.make_aware(datetime(2023, 7, 2))),
+                                                             due_date__lte = (timezone.make_aware(datetime(2023, 8, 1)))).order_by('status')
+    elif 'aug' in month.lower():
+        monthly_objectives = models.Objective.objects.filter(due_date__gte = (timezone.make_aware(datetime(2023, 8, 2))),
+                                                             due_date__lte = (timezone.make_aware(datetime(2023, 9, 1)))).order_by('status')
     else:
         monthly_objectives = ("This month is not defined yet.",)
         
@@ -155,7 +173,7 @@ class TaskDeleteView(DeleteView):
 def add_task(request):    
     form = TaskForm()    
     if request.method == "POST":
-        form = TaskForm(request.POST)
+        form = TaskForm(request.POST)        
         if form.is_valid():
             form.save()
             return redirect(reverse('index'))
@@ -172,6 +190,24 @@ def edit_task(request, id):
         form = TaskForm(instance=task)
     return render(request, 'track/task_edit.html', {'form': form})
 
+def edit_objective(request, id):
+    objective = models.Objective.objects.get(pk=id)    
+    if request.method == "POST":
+        form = ObjectiveForm(request.POST, instance=objective)
+        if form.is_valid():
+            form.save()
+            total_hours = sum([task.effort_hours for task in objective.tasks.all()]) or 1
+            hours_left = sum([task.effort_hours for task in objective.tasks.all() if task.status != 'completed']) 
+            progress = round((total_hours-hours_left)/total_hours*100, 2)
+            objective.effort_hours = total_hours
+            objective.effort_left = hours_left
+            objective.progress = progress            
+            objective.save()
+            return redirect(reverse('objective_detail', kwargs={'id': id}))
+    else:
+        form = ObjectiveForm(instance=objective)
+    return render(request, 'track/objective_edit.html', {'form': form})
+
 
 def load_gantt_chart(request):
     return render(request, 'track/gantt.html')
@@ -180,16 +216,46 @@ def load_gantt_chart(request):
 def objective_search(request):
     form = ObjectiveLookupForm()
     all_objectives = []
+    all_objectives_exclude_completed = []
     if request.method == 'POST':
         form = ObjectiveLookupForm(request.POST)
         if form.is_valid():
             keyword = form.cleaned_data["keyword"]
             objective_description = form.cleaned_data["objective_description"]
             if objective_description:
-                all_objectives = models.Objective.objects.filter(description__contains=objective_description)
+                all_objectives = models.Objective.objects.filter(description__contains=objective_description)                
             else:
                 all_objectives = models.Objective.objects.filter(description__contains=keyword)
-    return render(request, 'track/objective_lookup.html', {'form': form, 'objectives': all_objectives})
+            all_objectives_exclude_completed = all_objectives.filter(status__contains='complete')
+    context = {
+        'form': form,
+        'objectives': all_objectives,
+        'objectives_exclude_complete': all_objectives_exclude_completed,
+        'request_get': request.POST,
+    }
+    return render(request, 'track/objective_lookup.html', context)
+
+
+def goals(request):  
+    goals = models.Goal.objects.all()
+    goals_status = {}
+    goal_objective_status = {}
+    for goal in goals:
+        all_objectives = len(goal.goal_objectives.all()) or 1
+        complete_objectives = len(goal.goal_objectives.filter(status__contains='complete'))
+        goals_status[goal] = round((complete_objectives/all_objectives)*100, 2)  
+        for obj in goal.goal_objectives.all():
+            total_effort_hours = sum([task.effort_hours for task in obj.tasks.all()]) or 1
+            done_effort_hours = sum([task.effort_hours for task in obj.tasks.all() if task.status != 'completed'])
+            percent_done = round((done_effort_hours/total_effort_hours)*100, 2)
+            goal_objective_status[goal] = {obj: percent_done}
+    context = {
+        'goals': goals,
+        'goals_status': goals_status,
+        'goal_objective_status': goal_objective_status,
+    }
+    # print(goal_objective_status)
+    return render(request, 'track/goals.html', context)
         
 
 def progress(request):
